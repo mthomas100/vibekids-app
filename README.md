@@ -1,20 +1,23 @@
 # VibeKids
 
-![A "Ninja Cat Taco Blaster" game that Sparky built, running in the live preview](docs/media/hero-ninja-cat-taco-blaster.png)
-
-<sub>The live preview pane from a local development run on 2026-07-08. Claude wrote the game through the agent (AI-generated). The app idea came from a five-question Dream-It-Up interview that a developer answered during testing. The tour below shows the whole UI.</sub>
+<p align="center">
+  <img src="docs/media/live-build.gif" width="720" alt="Live build: the kid answers Sparky's first Dream-It-Up question with 'a game where a frog catches falling stars', taps build, Sparky narrates while the build show runs, the Frog Star Catcher game appears in the preview with confetti, and the frog catches stars">
+  <br>
+  <sub><b>A real build, recorded on the author's local dev setup (2026-10-05).</b> One Dream-It-Up answer ("a game where a frog catches falling stars"), then 🚀 build. Claude wrote Sparky's lines and the whole game (AI-generated, unedited) in 62 s; that wait is shown at 8× speed. Then the frog is played for a few seconds. Playwright drove the clicks; it ran the original pre-export code on the author's own Claude subscription, before this public copy switched the default to an API key.</sub>
+</p>
 
 **Not safe for real children: no auth, no parental consent (COPPA), no output moderation.** This is a local proof of concept; see [Status and limitations](#status-and-limitations).
 
 **VibeKids is a coding agent for children.** A kid aged about 8 to 12 types an idea, taps one, or says it out loud. Sparky, a friendly panda, builds it with Claude, and the working app shows up in a sandboxed live preview beside the chat. Tools like Lovable, Replit, Bolt and v0 already do "say it and it's built" for adults, but none of them is designed for children. VibeKids keeps that loop and adds what kids need: a 2nd-to-4th-grade reading level, read-aloud and push-to-talk, tappable choices that fill the wait while the build runs, a pre-build interview for kids who don't know what to ask for, and a safety model built into the architecture rather than added afterwards. The stack is Next.js 16, Convex (realtime) and the Claude Agent SDK, with a tool surface of seven sandboxed tools. It is a **v0, local-only proof of concept**, not a product.
 
+
+## Demo
+
 <p align="center">
   <img src="docs/media/tour.gif" width="720" alt="Tour: Sparky greets you, the Dream-It-Up door opens the interview, the My Apps shelf opens Star Counter, and two rounds are played in the live preview">
   <br>
-  <sub>The real UI running locally (2026-10-05): the empty canvas → tapping <i>Dream it up</i> (Sparky's opener and first question are deterministic, with no model call) → the <b>My Apps</b> shelf → Star Counter, an app Sparky generated earlier, played in the sandboxed preview. Playwright drives it against a local, account-free Convex backend with seeded demo data. Generating a <i>new</i> app needs a Claude credential, so a live build isn't in this recording (see the stills below).</sub>
+  <sub>The real UI running locally (2026-10-05): the empty canvas → tapping <i>Dream it up</i> (Sparky's opener and first question are deterministic, with no model call) → the <b>My Apps</b> shelf → Star Counter, an app Sparky generated earlier, played in the sandboxed preview. Playwright drives it against a local, account-free Convex backend with seeded demo data.</sub>
 </p>
-
-## Demo
 
 | | |
 |---|---|
@@ -34,7 +37,7 @@
 | ![Sparky's six moods and the mouth-sync rig](docs/media/sparky-moods.png) | ![The dev-only admin console showing the generated app's highlighted source and version history](docs/media/admin-source.png) |
 | **Sparky** is CSS/SVG with six moods (idle, thinking, building, talking, celebrate, oops), mouse parallax and a mouth synced to each word. This is the `/spike-sparky` page. | **`/admin`** is a dev-only time machine. It shows every write as an immutable, turn-stamped version, Shiki-highlighted source, a side-by-side diff, and a non-destructive whole-turn restore. |
 
-The hero, the build-now still and the build-in-progress still came from development runs with a live model on 2026-07-08. The rest were captured on 2026-10-05 with Playwright on a fresh local backend. That data was seeded with `projects:create` / `files:write` and holds the Star Counter HTML above plus empty projects. No child data is involved anywhere.
+The hero GIF is a live build on the author's local setup (2026-10-05). The build-now and build-in-progress stills came from development runs with a live model on 2026-07-08. The rest were captured on 2026-10-05 with Playwright on a fresh local backend. That data was seeded with `projects:create` / `files:write` and holds the Star Counter HTML above plus empty projects. No child data is involved anywhere.
 
 ## Architecture
 
@@ -117,9 +120,9 @@ Two design choices drive this flow, and the decision log records both:
 
 ## Measurements
 
-![Bar chart of measured waits: 90 ms instant ack, 8.0 s Kokoro TTS, 7.0 s Haiku first token, 9.0 s per interview question, 70 s to first file](docs/media/latency-chart.png)
+![Bar chart of measured waits: 90 ms instant ack, 8.0 s Kokoro TTS, 7.0 s Haiku first token, 9.0 s per interview question, 70 s to first file, 62 s for a whole build turn](docs/media/latency-chart.png)
 
-<sub>Data: [`docs/media/latency-measurements.csv`](docs/media/latency-measurements.csv), taken from the decision log entries D18, D26 and L10 (2026-05-31 and 2026-07-08). Each is a single live measurement on one Mac in local dev, not a benchmark.</sub>
+<sub>Data: [`docs/media/latency-measurements.csv`](docs/media/latency-measurements.csv), taken from the decision log entries D18, D26 and L10 (2026-05-31 and 2026-07-08), plus the whole build turn from the live recording at the top (2026-10-05). Each is a single live measurement on one Mac in local dev, not a benchmark.</sub>
 
 These numbers shaped the design. On-device Kokoro.js TTS sounded warmer but took about 8 s per line, because the page isn't cross-origin-isolated and the WASM ran single-threaded. It was reverted to Web Speech (D18, L11). The interview's model turns cost about 9 s each, so the opener, "change something" and "build now" are deterministic and need no model call (D26).
 
@@ -192,7 +195,7 @@ The full plan is in [ROADMAP.md](ROADMAP.md). For why things are the way they ar
 ## Credits and licences
 
 - Code: [MIT](LICENSE).
-- AI-generated content: Sparky's chat text and the generated apps in the screenshots and GIF (Ninja Cat Taco Blaster, Glitter Unicorn Sticker Maker, Star Counter) were produced by Anthropic's Claude models through the Claude Agent SDK.
+- AI-generated content: Sparky's chat text and the generated apps in the screenshots and GIF (Frog Star Catcher, Glitter Unicorn Sticker Maker, Star Counter) were produced by Anthropic's Claude models through the Claude Agent SDK.
 - Fonts: [Baloo 2](https://fonts.google.com/specimen/Baloo+2) and [Nunito](https://fonts.google.com/specimen/Nunito), both SIL Open Font License, self-hosted at build time through `next/font`.
 - Main dependencies: [Next.js](https://nextjs.org) (MIT), [React](https://react.dev) (MIT), [Convex](https://www.convex.dev) client (Apache-2.0), [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk) (subject to Anthropic's terms), [Tailwind CSS](https://tailwindcss.com) (MIT), [Shiki](https://shiki.style) (MIT), [jsdiff](https://github.com/kpdecker/jsdiff) (BSD-3-Clause), [zod](https://zod.dev) (MIT), [Rive React runtime](https://github.com/rive-app/rive-react) (MIT), [kokoro-js](https://www.npmjs.com/package/kokoro-js) (Apache-2.0).
 - `/spike-rive` loads a public sample animation from Rive's own CDN at runtime, and `/spike-kokoro` downloads the Kokoro-82M model (Apache-2.0) at runtime. Neither asset is included in this repo.

@@ -4,3 +4,4 @@ measurement,ms,source,date
 "Haiku time-to-first-token, Dream-It-Up question",7000,"docs/decisions/LOG.md D26",2026-07-08
 "Dream-It-Up question, end to end (steady state)",9000,"docs/decisions/LOG.md D26",2026-07-08
 "Agent SDK, first file written on a complex build",70000,"docs/decisions/LOG.md L10",2026-05-31
+"Whole build turn, one Dream-It-Up brief → playable game (Frog Star Catcher)",62000,"live recording for this README (app stamp: ""Whipped up it in 62s"")",2026-10-05
