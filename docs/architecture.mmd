@@ -1,0 +1,53 @@
+---
+title: VibeKids — a coding agent for kids
+---
+flowchart TB
+    kid(["🧒 Kid: &quot;make a button game!&quot;"]):::actor
+
+    subgraph browser["🖥️  Browser — Next.js 16 · React 19 · Convex live hooks"]
+        direction LR
+        chat["💬 AvatarChat<br/>messages · buildStatus<br/>queue / next-turn"]
+        preview["▶️ PreviewPane<br/>iframe srcdoc · Sandpack<br/>renders from files"]
+        chips["✨ SuggestionChips<br/>idea · microchoice"]
+    end
+
+    subgraph server["⚙️  /api/chat — Next.js Node-runtime route"]
+        direction TB
+        guard["env-guard: check the LLM credential"]:::danger
+        continuity["continuity guard<br/>inject file tree → edit, don't recreate"]
+        loop["Agent SDK query() loop<br/>maxTurns 8 · streams deltas"]
+        guard --> continuity --> loop
+    end
+
+    subgraph agent["🤖  Claude Agent SDK — &quot;Sparky&quot;"]
+        direction LR
+        persona["SPARKY_SYSTEM persona<br/>modelForRole('balanced')"]
+        tools["Sparky MCP tools<br/>create_project · write_file · edit_file<br/>run_preview · suggest_idea · start_micro_choice"]
+    end
+
+    claude["☁️  Claude — Haiku · Sonnet · Opus<br/>API key (default)"]:::external
+
+    subgraph convex["🗄️  Convex — realtime store · single source of truth"]
+        tables["projects · files · messages · suggestions · buildStatus"]:::store
+    end
+
+    kid --> chat
+    chips -->|"tap → enqueue → next turn"| chat
+    chat ==>|"POST · projectId + text"| guard
+    loop <-->|"query(): system = persona, model = Sonnet"| persona
+    loop ==>|"tool calls"| tools
+    persona <-->|"prompt · stream  (Agent SDK)"| claude
+    tools ==>|"mutations: write file · add msg · set status · add chips"| tables
+    loop ==>|"appendText: stream avatar bubble"| tables
+
+    tables -.->|"realtime · live subscriptions re-render chat · preview · chips"| browser
+
+    classDef actor    fill:#ede7f6,stroke:#5e35b1,color:#311b92;
+    classDef danger   fill:#c62828,stroke:#8e0000,color:#ffffff;
+    classDef external fill:#eceff1,stroke:#90a4ae,color:#263238;
+    classDef store    fill:#2e7d32,stroke:#1b5e20,color:#ffffff;
+
+    style browser fill:#f3f7fc,stroke:#1565c0,stroke-width:1px
+    style server  fill:#fff8ec,stroke:#f9a825,stroke-width:1px
+    style agent   fill:#eef9fb,stroke:#00838f,stroke-width:1px
+    style convex  fill:#f3faf4,stroke:#2e7d32,stroke-width:1px

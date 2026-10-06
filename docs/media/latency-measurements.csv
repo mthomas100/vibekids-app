@@ -1,0 +1,6 @@
+measurement,ms,source,date
+"Read-aloud instant ack (route-side, before the model)",90,"docs/decisions/LOG.md L10",2026-05-31
+"Kokoro.js on-device TTS, one 12-word line (idle, not cross-origin-isolated)",7974,"docs/decisions/LOG.md D18",2026-05-31
+"Haiku time-to-first-token, Dream-It-Up question",7000,"docs/decisions/LOG.md D26",2026-07-08
+"Dream-It-Up question, end to end (steady state)",9000,"docs/decisions/LOG.md D26",2026-07-08
+"Agent SDK, first file written on a complex build",70000,"docs/decisions/LOG.md L10",2026-05-31

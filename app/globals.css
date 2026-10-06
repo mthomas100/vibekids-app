@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   VibeKids design system — "Toy Arcade"
+   Bright cream canvas, saturated coral/aqua/sunshine toys, thick ink outlines,
+   hard offset shadows you can press. Cool-not-babyish for the 8–12 set.
+   Tokens here are the ONLY place colors live — components use the utilities.
+   ========================================================================== */
+
+@theme {
+  /* fonts (loaded in app/layout.tsx via next/font) */
+  --font-display: var(--font-display), ui-rounded, "Comic Sans MS", sans-serif;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+
+  /* canvas layers */
+  --color-paper: #fff8ec; /* warm cream app background */
+  --color-card: #ffffff; /* raised surfaces */
+  --color-sky: #e8f6ff; /* pale sky panels (chat) */
+
+  /* ink — warm near-black, never pure #000 */
+  --color-ink: #2d2a32;
+  --color-ink-soft: #6b6474;
+  --color-ink-faint: #a39cad;
+
+  /* the toys */
+  --color-coral: #ff5c5c; /* primary action */
+  --color-coral-deep: #d63e3e;
+  --color-aqua: #21c7c1; /* secondary / builder energy */
+  --color-aqua-deep: #0fa19b;
+  --color-sun: #ffc233; /* accent / sparks */
+  --color-sun-deep: #e0a112;
+  --color-grape: #a06bff; /* sparky magic */
+  --color-grape-deep: #7d47dd;
+  --color-lime: #58cc02; /* success / GO (duolingo-proven green) */
+  --color-lime-deep: #46a302;
+  --color-blush: #ff7ab8; /* micro-choice pink */
+  --color-blush-deep: #e0509a;
+  --color-tang: #ff9f45; /* errors/oops — gentle tangerine, never fire-engine red */
+  --color-tang-deep: #e07b22;
+
+  /* recessed surfaces (input tracks, wells) — cream canvas → white card → sunken */
+  --color-sunken: #f5e9d3;
+
+  /* toy physics */
+  --shadow-toy: 0 4px 0 rgba(45, 42, 50, 0.22);
+  --shadow-toy-sm: 0 3px 0 rgba(45, 42, 50, 0.18);
+  --shadow-toy-lg: 0 6px 0 rgba(45, 42, 50, 0.22);
+  --shadow-pop: 0 8px 24px rgba(45, 42, 50, 0.14);
+
+  --radius-toy: 1.25rem;
+
+  /* bouncy springs */
+  --ease-boing: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* maker-paper texture: a faint dot grid, like graph paper in a sketchbook */
+  background-image: radial-gradient(rgba(45, 42, 50, 0.055) 1.1px, transparent 1.1px);
+  background-size: 22px 22px;
+}
+
+/* Display face for headings/buttons/labels */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* ----------------------------------------------------------------------------
+   .btn-toy — the pressable toy button. Pair with a bg + border color, e.g.:
+   <button class="btn-toy bg-coral border-coral-deep text-ink">Go!</button>
+   CONTRAST HOUSE RULE (D25): labels on color fills are dark ink — white fails
+   WCAG on aqua/sun/lime (2.10/1.61/2.09) and only survives on coral/grape at
+   ≥18.66px bold. Small pills use the dark-on-light-tint pattern instead.
+   Physics: thick bottom shadow; hover lifts 1px; :active pushes 3px down and
+   collapses the shadow — your finger "presses" the toy.
+---------------------------------------------------------------------------- */
+.btn-toy {
+  border-width: 2.5px;
+  border-style: solid;
+  border-radius: 9999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  box-shadow: var(--shadow-toy);
+  transition:
+    transform 0.12s var(--ease-boing),
+    box-shadow 0.12s var(--ease-boing),
+    filter 0.12s ease;
+  user-select: none;
+}
+.btn-toy:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.btn-toy:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(45, 42, 50, 0.22); }
+.btn-toy:disabled { opacity: 0.45; transform: none; box-shadow: var(--shadow-toy); filter: none; }
+
+/* Sticker card — thick ink outline + soft drop, for shelf cards & message pops */
+.card-sticker {
+  border: 2.5px solid rgba(45, 42, 50, 0.14);
+  border-radius: var(--radius-toy);
+  background: var(--color-card);
+  box-shadow: var(--shadow-toy-sm);
+}
+
+/* Pop-in for new things (bubbles, chips, cards) */
+@keyframes vk-pop-in {
+  0% { transform: scale(0.6) translateY(8px); opacity: 0; }
+  70% { transform: scale(1.06) translateY(-2px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+.vk-pop-in { animation: vk-pop-in 0.34s var(--ease-boing) both; }
+
+/* Gentle attention wiggle (chips that want a tap) */
+@keyframes vk-wiggle {
+  0%, 88%, 100% { transform: rotate(0deg); }
+  90% { transform: rotate(-2.5deg); }
+  93% { transform: rotate(2.5deg); }
+  96% { transform: rotate(-1.5deg); }
+}
+.vk-wiggle { animation: vk-wiggle 5s ease-in-out infinite; }
+
+/* Marching progress stripes for the build ticker bar */
+@keyframes vk-stripes { 0% { background-position: 0 0; } 100% { background-position: 28px 0; } }
+.vk-stripes {
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.45) 25%, transparent 25%,
+    transparent 50%, rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0.45) 75%, transparent 75%
+  );
+  background-size: 28px 28px;
+  animation: vk-stripes 0.9s linear infinite;
+}
+
+/* Ellipsis typing dots (Sparky is thinking) */
+@keyframes vk-dot { 0%, 60%, 100% { transform: translateY(0); opacity: 0.35; } 30% { transform: translateY(-4px); opacity: 1; } }
+.vk-dot { animation: vk-dot 1.1s ease-in-out infinite; }
+
+/* =============================== Sparky ==================================
+   Keyframes referenced by components/SparkyAvatar.tsx. CSS/SVG renderer;
+   Rive (.riv) stays the documented upgrade engine (ADR 0007). */
+@keyframes sparky-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+@keyframes sparky-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6%); } }
+@keyframes sparky-blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes sparky-wobble { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+@keyframes sparky-pop { 0% { transform: scale(1) translateY(0); } 35% { transform: scale(1.18) translateY(-12%); } 60% { transform: scale(0.96); } 100% { transform: scale(1); } }
+@keyframes sparky-shake { 0%, 100% { transform: translateX(0) rotate(0deg); } 20% { transform: translateX(-12%) rotate(-6deg); } 40% { transform: translateX(10%) rotate(5deg); } 60% { transform: translateX(-7%) rotate(-3deg); } 80% { transform: translateX(4%) rotate(2deg); } }
+@keyframes sparky-spark { 0% { transform: scale(0) rotate(0deg); opacity: 0; } 30% { opacity: 1; } 100% { transform: scale(1.4) rotate(45deg); opacity: 0; } }
+@keyframes sparky-talk { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1.2); } }
+
+.sparky-breathe { animation: sparky-breathe 3s ease-in-out infinite; }
+.sparky-bob { animation: sparky-bob 3s ease-in-out infinite; }
+.sparky-blink { animation: sparky-blink 4s ease-in-out infinite; }
+.sparky-wobble { animation: sparky-wobble 0.8s ease-in-out infinite; transform-origin: 50% 85%; }
+.sparky-pop { animation: sparky-pop 0.7s ease-out; }
+.sparky-shake { animation: sparky-shake 0.5s ease-in-out; }
+.sparky-spark { animation: sparky-spark 0.9s ease-out forwards; }
+.sparky-talk { animation: sparky-talk 0.32s ease-in-out infinite; }
+
+/* "I'm listening" sound-bar equalizer (shown while the kid talks) */
+@keyframes sparky-eq { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+.sparky-eq { transform-origin: bottom; animation: sparky-eq 0.8s ease-in-out infinite; }
+
+/* Confetti burst (celebration) — pieces are positioned/colored inline; this drives the fall */
+@keyframes vk-confetti-fall {
+  0% { transform: translate3d(0, -10px, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(var(--drift, 0px), 105vh, 0) rotate(var(--spin, 540deg)); opacity: 0.9; }
+}
+.vk-confetti { animation: vk-confetti-fall var(--fall, 2.6s) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sparky-breathe, .sparky-bob, .sparky-blink, .sparky-wobble,
+  .sparky-pop, .sparky-shake, .sparky-spark, .sparky-talk, .sparky-eq,
+  .vk-pop-in, .vk-wiggle, .vk-stripes, .vk-dot, .vk-confetti { animation: none !important; }
+}
+
+/* Dev admin Source tab — Shiki-highlighted code with a line-number gutter (#28).
+   Scopes to .admin-shiki so it never touches the kid-facing app. */
+.admin-shiki { height: 100%; overflow: auto; background: #09090b; }
+.admin-shiki pre.shiki {
+  margin: 0;
+  padding: 0.75rem 0;
+  background: transparent !important;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+.admin-shiki code { counter-reset: line; }
+.admin-shiki .line { counter-increment: line; }
+.admin-shiki .line::before {
+  content: counter(line);
+  display: inline-block;
+  width: 2.5rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: #52525b; /* zinc-600 */
+  user-select: none;
+}
