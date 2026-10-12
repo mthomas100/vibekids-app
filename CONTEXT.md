@@ -1,9 +1,7 @@
 # VibeKids — Context
 
-> The one-screen "why it exists + what the words mean." Read this first.
-> The plan lives in `ROADMAP.md`; the decisions in `docs/decisions/LOG.md` → `docs/adr/`;
-> how an agent works in `docs/operating-philosophy.md`. This is the grill-with-docs glossary
-> contract that `docs/agents/domain.md` points at.
+> The one-screen "why it exists + what the words mean." Architecture decisions are in `docs/adr/`;
+> the design research behind them is in `docs/research/`.
 
 ## North star
 
@@ -20,18 +18,6 @@ to try while it builds) + **child-safety guardrails on AI output**. Adult vibe-c
 Replit, Bolt, v0) nail the magic but were never designed for kids — no reading level, no voice, no
 attention scaffolding, no safety gate. That gap is the wedge.
 
-## Operating philosophy (3 bullets — full version in `docs/operating-philosophy.md`)
-
-- **One sentence:** be a high-autonomy frontier engineer on reversible, sandboxed work — and a
-  disciplined junior who stops and asks the instant the work becomes irreversible, account-bound, or a
-  genuine judgment call; throw compute at understanding, spend the human's attention only where it's the
-  scarce resource.
-- **Posture A — autonomous (~90%):** reversible + sandboxed work (code, refactors, atomic commits,
-  research, prototypes) → just do it. Git is the undo button; the sandbox is the blast shield.
-- **Posture B — stop and ask:** the moment the next step is irreversible, outside the sandbox,
-  account/identity-bound, spends real money, or is a genuine fork → stop, lay out options + a
-  recommendation, hand a clean baton. (Decide ties by **blast radius**.)
-
 ## Domain glossary
 
 Use these exact terms in issues, ADRs, hypotheses, and test names. Don't drift to synonyms.
@@ -46,7 +32,7 @@ Use these exact terms in issues, ADRs, hypotheses, and test names. Don't drift t
   `start_micro_choice` tools. **"Feeds the build" = feeds the *next turn*, non-blocking** (queue model, ADR
   0005): Sparky shows the choice mid-build but never waits on it — it builds with a sensible default, and
   the kid's tap is applied as the following turn. (The choice is *never* injected into the running turn.)
-- **Dream-It-Up mode** — the summoned pre-build interview (D26): a kid who doesn't know what to prompt
+- **Dream-It-Up mode** — the summoned pre-build interview: a kid who doesn't know what to prompt
   taps the 🤔💭 door and Sparky asks up to **5** quick questions, one at a time — each with 3–4 tappable
   answers, ✏️ type-your-own, 🎲 surprise-me — then recaps the plan (⭐ card) and builds it once. The
   answers become the **brief** (the `briefs` table) compiled into the build turn's prompt. Opt-in and
@@ -59,8 +45,8 @@ Use these exact terms in issues, ADRs, hypotheses, and test names. Don't drift t
 - **preview — Tier B** — `@codesandbox/sandpack-react` for React / multi-file apps, alongside Tier A.
 - **model roles (`fast` / `balanced` / `deep`)** — task-routed via `modelForRole()` in
   `lib/ai/provider.ts` (the only place model ids live): **fast = Haiku** (chat/chips + output-safety
-  pass), **balanced = Sonnet** (default codegen), **deep = Opus** (hard scaffolds only — drains the
-  metered sub credit fastest, use sparingly).
+  pass), **balanced = Sonnet** (default codegen), **deep = Opus** (hard scaffolds only — it costs the
+  most, use sparingly).
 - **workspace** — v0 has no auth: an anonymous local workspace keyed by a `workspaceId` in
   `localStorage`. (Phase 1 adds Clerk where only adults log in and kids are *profiles*.)
 - **buildStatus** — the live ticker showing what Sparky is doing now, in kid-framed present-continuous

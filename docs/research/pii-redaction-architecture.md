@@ -3,8 +3,8 @@
 > **What this is:** an implementation question — should sensitive data be stripped from a kid's input
 > on-device (e.g. with regex at voice-capture time) or on the backend before inference, what do others in
 > this space do, and is self-hosting a monitoring model common? Researched and captured 2026-05-31. This
-> is the **technical "how"** behind the **prompt-PII-scrubbing** item flagged in the COPPA feasibility
-> review (an archived research note, not included) — the one product-specific gap v0 doesn't have yet.
+> is the **technical "how"** behind the **prompt-PII-scrubbing** item flagged in a COPPA feasibility
+> review — the one product-specific gap v0 doesn't have yet.
 >
 > **Bottom line:** the on-device instinct maps almost exactly onto the standard production pattern (a *"local AI
 > proxy"*) — with **three refinements**: use **regex + a small NER model** (regex alone misses the stuff
@@ -116,7 +116,7 @@ access duties all still stand.
 
 ## What this means for VibeKids
 
-- **This is the "how" behind the COPPA gap.** The COPPA feasibility review (archived note, not included)
+- **This is the "how" behind the COPPA gap.** A COPPA feasibility review
   flagged prompt-PII-scrubbing as the one product-specific item v0 lacks; this is the pipeline to build
   when Phase 1 opens.
 - **The server-side chokepoint already exists.** `app/api/chat/` is the Node route running the Agent SDK
@@ -130,14 +130,14 @@ access duties all still stand.
   Apple — a hard gate before any real kid). Closing it needs **on-device ASR**, which leans on the same
   **cross-origin-isolation (COOP/COEP) keystone — #26** — that on-device TTS (Kokoro) needs. So **text PII
   redaction and on-device ASR are coupled;** the keystone unlocks both.
-- **Content moderation maps to an existing convention.** `CLAUDE.md` already says *"moderate model text
-  out"*; `lib/ai/persona.ts` is the input guard. **Llama Guard** is the self-hosted production answer for
+- **Content moderation maps to an existing convention.** The project's kid-safety rule is *"moderate model
+  text out"*; `lib/ai/persona.ts` is the input guard. **Llama Guard** is the self-hosted production answer for
   the harmful-content classifier (input *and* output) — GPU-costed, so **sequence it** (moderation API
   first → self-host as volume grows).
 - **Cost fits the low-spend + data-light posture.** PII NER is **CPU/on-device cheap** (fits
   "minimal by design"); Llama Guard GPU is a real cost to **defer**, not take on at POC.
-- **The "minimize" through-line, a third time.** The constrained, guided product (see
-  the constrained-generation wedge in `CONTEXT.md`) **shrinks the PII surface**
+- **The "minimize" through-line, a third time.** The constrained, guided product (safe templates,
+  tappable choices) **shrinks the PII surface**
   — fewer open text boxes where a kid can type their address means fewer chances for the detector to miss
   something. **Narrowing the input space makes every one of these tools more reliable.**
 
@@ -150,4 +150,4 @@ access duties all still stand.
 
 > See also: ADR 0004 (kids-as-profiles) ·
 > ADR 0006 §Deferred + issues #8/#9 (voice consent) · #26 (cross-origin isolation keystone) ·
-> `CLAUDE.md` kid-safety conventions.
+> `lib/ai/persona.ts` (the safety block).

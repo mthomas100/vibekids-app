@@ -25,7 +25,7 @@ import { compileBuildPrompt, deterministicRecap, type QA } from "../../../lib/in
 // Dream-It-Up mode: the pre-build interview loop. Each "answer" turn is a lean
 // fast-tier (Haiku) Agent SDK query that must call exactly one tool — ask_question
 // or finish_interview. Everything the kid must feel INSTANTLY (the opener, acks,
-// build-now, change) is written route-side with zero model latency (learning L10).
+// build-now, change) is written route-side with zero model latency (the agent can take seconds to answer).
 // The build itself stays in /api/chat — this route only hands back the compiled
 // prompt for the client to fire as a normal build turn.
 export const runtime = "nodejs";
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
           return Response.json({ ok: true, buildPrompt });
         }
 
-        // INSTANT ack (the L10 beat) — read aloud while Haiku thinks up the question.
+        // INSTANT ack — read aloud while Haiku thinks up the question.
         await convex.mutation(api.messages.add, {
           projectId,
           role: "avatar",

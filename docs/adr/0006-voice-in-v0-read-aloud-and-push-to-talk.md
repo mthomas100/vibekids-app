@@ -1,13 +1,13 @@
 # ADR 0006 — Voice in v0: read-aloud + push-to-talk STT (on-device, $0, no API billing)
 
-> Index: `docs/decisions/LOG.md` (D15). Status: **Locked (v0) [USER CALL].**
-> Evidence: `docs/research/sparky-comes-alive.md` (§Voice). Milestone: **M4 — Sparky Comes Alive** (#18 read-aloud, #19 STT).
+> Status: **Locked (v0).**
+> Evidence: `docs/research/sparky-comes-alive.md` (§Voice). Issues #18 (read-aloud), #19 (STT).
 
 ## Context
 
-v0 deliberately shipped **text + tap-chips before voice** (D3; the `CLAUDE.md` guardrail literally says
-"no voice"). The kids-UX research (stream 4) backed that ordering. This ADR **revisits that for the v0
-POC**, on the owner's explicit call: to *bring Sparky to life*, Sparky should **read his messages aloud** and
+v0 deliberately shipped **text + tap-chips before voice**, and the original v0 scope guardrails said
+"no voice". The kids-UX research (stream 4) backed that ordering. This ADR **revisits that for the v0
+POC**: to *bring Sparky to life*, Sparky should **read his messages aloud** and
 the kid should be able to **talk to him**.
 
 The two halves are asymmetric. Read-aloud (TTS-out) is low-risk, near-free, and binds cleanly to the chat.
@@ -18,7 +18,7 @@ paid voice vendor.
 
 ## Options considered
 
-1. **No voice (status quo / D3).** Keep text+chips; defer all voice to Phase 1.
+1. **No voice (status quo).** Keep text+chips; defer all voice to Phase 1.
 2. **Read-aloud only.** Ship TTS-out now; defer STT-in (the research's recommendation).
 3. **Read-aloud + push-to-talk STT (chosen).** Both directions in the POC; STT fills the input and the kid
    confirms before sending.
@@ -27,7 +27,7 @@ paid voice vendor.
 
 ## Decision
 
-**Option 3 — read-aloud + push-to-talk STT, both on-device and $0. [USER CALL, 2026-05-30.]**
+**Option 3 — read-aloud + push-to-talk STT, both on-device and $0.** (Decided 2026-05-30.)
 
 - **Read-aloud:** Web Speech `SpeechSynthesis` first (native, $0), upgradable to **Kokoro.js** (on-device
   neural TTS — Apache, ~86 MB one-time, no server/API key, ranks *ahead of* Google WaveNet / Amazon Polly)
@@ -38,10 +38,10 @@ paid voice vendor.
 
 ## Why
 
-- **It's the product bet for M4** — Sparky stops being a chat box and becomes a character you talk *with*.
+- **It's the product bet for "Sparky Comes Alive"** — Sparky stops being a chat box and becomes a character you talk *with*.
 - **No model spend** because voice is independent of the agent loop, and both halves run
   on-device for $0. Good read-aloud does **not** require a paid vendor (Kokoro proves this).
-- **STT is included despite the research's "defer" rec — deliberately, for the POC.** The owner wants to
+- **STT is included despite the research's "defer" rec — deliberately, for the POC.** The aim is to
   *evaluate the kid-accuracy problem live* rather than take it on faith (see limitation below). The
   POC will be exercised with an adult voice, where Web Speech is accurate; the kid-voice question is a
   later, evidence-based call.
@@ -59,11 +59,11 @@ child-tuned, or heavier-repair STT. Do not assume the POC's adult-voice fidelity
 
 > **This block is the forward-carried safety debt.** v0 is **local-dev-only, no auth, no real children**,
 > so shipping voice in the POC crosses no line *today*. The moment voice is exposed to an actual kid
-> (Phase 1), **all of the following are hard prerequisites.** Mirrored in `ROADMAP.md` Phase 1 and issues
+> (Phase 1), **all of the following are hard prerequisites.** Tracked as Phase 1 work in issues
 > **#8** (COPPA/consent) and **#9** (Voice).
 
 - **Verifiable parental consent (COPPA)** for **audio/biometric capture** — a child's voice is biometric.
-  Consent belongs at the Phase-1 boundary (adults authenticate, kids are profiles — D7).
+  Consent belongs at the Phase-1 boundary (adults authenticate, kids are profiles — ADR 0004).
 - **Kid audio = ephemeral, on-device, never stored, never trained on** (the roadmap's stated stance). No
   raw audio to Convex, no voiceprint, no audio files persisted.
 - **Web Speech `SpeechRecognition` sends the kid's audio to Google/Apple by default.** For real kids, move
@@ -77,5 +77,5 @@ child-tuned, or heavier-repair STT. Do not assume the POC's adult-voice fidelity
 ## Status & revisit-trigger
 
 **Locked for the v0 POC.** The "Deferred to Phase 1" obligations above are the **revisit-trigger**: before
-exposing voice to anyone but the owner on local dev, this ADR's deferred block must be satisfied. Reconsider
+exposing voice to anyone but the developer on local dev, this ADR's deferred block must be satisfied. Reconsider
 the engine choice (paid TTS, child-tuned STT) only when real-user quality/consent needs justify it.

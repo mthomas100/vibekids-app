@@ -82,7 +82,7 @@ export default defineSchema({
   // Dream-It-Up mode: one interview per project run — Sparky asks a few questions
   // BEFORE building so the kid's vision (not a one-shot prompt) drives the build.
   // The latest row is the live interview; qa is the growing spec; currentQuestion's
-  // options render as tappable chips. (Amends D17's 1-question grill — see LOG.)
+  // options render as tappable chips. (Replaces an earlier 1-question version with a budget of up to 5.)
   briefs: defineTable({
     projectId: v.id("projects"),
     status: v.union(

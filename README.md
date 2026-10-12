@@ -3,7 +3,7 @@
 <p align="center">
   <img src="docs/media/live-build.gif" width="720" alt="Live build: the kid answers Sparky's first Dream-It-Up question with 'a game where a frog catches falling stars', taps build, Sparky narrates while the build show runs, the Frog Star Catcher game appears in the preview with confetti, and the frog catches stars">
   <br>
-  <sub><b>A real build, recorded on the author's local dev setup (2026-10-05).</b> One Dream-It-Up answer ("a game where a frog catches falling stars"), then 🚀 build. Claude wrote Sparky's lines and the whole game (AI-generated, unedited) in 62 s; that wait is shown at 8× speed. Then the frog is played for a few seconds. Playwright drove the clicks; it ran the original pre-export code on the author's own Claude subscription, before this public copy switched the default to an API key.</sub>
+  <sub><b>A real build, recorded in local dev (2026-10-05).</b> One Dream-It-Up answer ("a game where a frog catches falling stars"), then 🚀 build. Claude wrote Sparky's lines and the whole game (AI-generated, unedited) in 62 s; that wait is shown at 8× speed. Then the frog is played for a few seconds. Playwright drove the clicks.</sub>
 </p>
 
 **Not safe for real children: no auth, no parental consent (COPPA), no output moderation.** This is a local proof of concept; see [Status and limitations](#status-and-limitations).
@@ -37,7 +37,7 @@
 | ![Sparky's six moods and the mouth-sync rig](docs/media/sparky-moods.png) | ![The dev-only admin console showing the generated app's highlighted source and version history](docs/media/admin-source.png) |
 | **Sparky** is CSS/SVG with six moods (idle, thinking, building, talking, celebrate, oops), mouse parallax and a mouth synced to each word. This is the `/spike-sparky` page. | **`/admin`** is a dev-only time machine. It shows every write as an immutable, turn-stamped version, Shiki-highlighted source, a side-by-side diff, and a non-destructive whole-turn restore. |
 
-The hero GIF is a live build on the author's local setup (2026-10-05). The build-now and build-in-progress stills came from development runs with a live model on 2026-07-08. The rest were captured on 2026-10-05 with Playwright on a fresh local backend. That data was seeded with `projects:create` / `files:write` and holds the Star Counter HTML above plus empty projects. No child data is involved anywhere.
+The hero GIF is a live build in local dev (2026-10-05). The build-now and build-in-progress stills came from development runs with a live model on 2026-07-08. The rest were captured on 2026-10-05 with Playwright on a fresh local backend. That data was seeded with `projects:create` / `files:write` and holds the Star Counter HTML above plus empty projects. No child data is involved anywhere.
 
 ## Architecture
 
@@ -113,7 +113,7 @@ sequenceDiagram
     C-->>UI: confetti, "Finished it in Xs!"
 ```
 
-Two design choices drive this flow, and the decision log records both:
+Two design choices drive this flow:
 
 - **Latency is a feature.** The SDK can take about 70 s to write the first file of a complex build. So everything a kid needs right away (the ack, read-aloud, the status) is written by the route the moment they act. The wait is filled with choices that feed the *next* turn and are never injected mid-run (ADR 0005).
 - **The UI follows machine state, never Sparky's wording.** Lifecycle (`thinking | building | done | error`) is a field, not a regex over kid-facing text. A runtime error inside the preview is posted out of the iframe and turned into a "Ask Sparky to fix it" turn instead of a stack trace.
@@ -122,17 +122,17 @@ Two design choices drive this flow, and the decision log records both:
 
 ![Bar chart of measured waits: 90 ms instant ack, 8.0 s Kokoro TTS, 7.0 s Haiku first token, 9.0 s per interview question, 70 s to first file, 62 s for a whole build turn](docs/media/latency-chart.png)
 
-<sub>Data: [`docs/media/latency-measurements.csv`](docs/media/latency-measurements.csv), taken from the decision log entries D18, D26 and L10 (2026-05-31 and 2026-07-08), plus the whole build turn from the live recording at the top (2026-10-05). Each is a single live measurement on one Mac in local dev, not a benchmark.</sub>
+<sub>Data: [`docs/media/latency-measurements.csv`](docs/media/latency-measurements.csv), measured during development (2026-05-31 and 2026-07-08), plus the whole build turn from the live recording at the top (2026-10-05). Each is a single live measurement on one Mac in local dev, not a benchmark.</sub>
 
-These numbers shaped the design. On-device Kokoro.js TTS sounded warmer but took about 8 s per line, because the page isn't cross-origin-isolated and the WASM ran single-threaded. It was reverted to Web Speech (D18, L11). The interview's model turns cost about 9 s each, so the opener, "change something" and "build now" are deterministic and need no model call (D26).
+These numbers shaped the design. On-device Kokoro.js TTS sounded warmer but took about 8 s per line, because the page isn't cross-origin-isolated and the WASM ran single-threaded. It was reverted to Web Speech. The interview's model turns cost about 9 s each, so the opener, "change something" and "build now" are deterministic and need no model call.
 
-What was checked for this export (2026-10-05, Node 22.23):
+Checks run on 2026-10-05 (Node 22.23):
 
 | Check | Result |
 |---|---|
 | `npm test` (vitest) | 45 tests in 6 files pass: pure modules for preview compose and reconstruct, interview compile, continuity, build mood, provider |
 | `npx tsc --noEmit` | clean |
-| `npx eslint` | 6 errors and 9 warnings remain (not fixed for the export) |
+| `npx eslint` | 6 errors and 9 warnings remain (not fixed yet) |
 | App against a local anonymous Convex backend | home, shelf, `/admin` and `/spike-sparky` render; preview runs a generated app |
 
 ## Repo tour
@@ -149,9 +149,8 @@ What was checked for this export (2026-10-05, Node 22.23):
 | `components/` | SplitScreen, AvatarChat, SparkyAvatar, BuildShow, Celebration, Shelf, admin console |
 | `app/spike-*` | Isolated spikes: Sparky avatar, Rive, Kokoro TTS |
 | `docs/adr/` | 10 architecture decision records |
-| `docs/decisions/LOG.md` | Decisions D1–D26 and hard-won learnings L1–L14 |
 | `docs/research/` | Design research behind the features (wait-time engagement, interview patterns, versioning, PII redaction, …) |
-| `CLAUDE.md`, `AGENTS.md`, `.claude/` | The agent-driven workflow the project was built with: rules, skills, kickoff/retro commands |
+| `CONTEXT.md` | The product's why in one screen, plus the domain glossary (Sparky, micro-choice, Dream-It-Up, Tier A/B, …) |
 
 ## Requirements
 
@@ -185,12 +184,12 @@ Honest status as of the last development work (2026-07-08):
 
 - **Working and verified live in local dev:** chat → build → live preview; edit-don't-recreate continuity; suggestion chips and micro-choices; Dream-It-Up interview; read-aloud and push-to-talk; animated Sparky; build show and confetti; runtime-error auto-heal; multi-app shelf; version history with turn-level restore in `/admin`.
 - **Not built:** Sandpack / React preview (Tier B, so only HTML/CSS/JS apps run), the "Making-It Card", the Haiku output-moderation pass, persona polish, any deploy path.
-- **Not safe for real children yet, by design.** There is no auth, and the workspace is an anonymous id in `localStorage`. There is no parental consent (COPPA), no moderation of model output beyond the persona's safety block and the sandbox, and voice uses browser speech services. The roadmap puts adult-only logins with kids as profiles, verifiable parental consent (including for voice), and dual-layer moderation *before* any kid outside development uses it ([ADR 0004](docs/adr/0004-no-auth-anon-workspace-v0.md), [ADR 0006](docs/adr/0006-voice-in-v0-read-aloud-and-push-to-talk.md)).
-- Issue numbers (#NN) in the docs point to the project's original private tracker, which was not exported.
+- **Not safe for real children yet, by design.** There is no auth, and the workspace is an anonymous id in `localStorage`. There is no parental consent (COPPA), no moderation of model output beyond the persona's safety block and the sandbox, and voice uses browser speech services. The plan puts adult-only logins with kids as profiles, verifiable parental consent (including for voice), and dual-layer moderation *before* any kid outside development uses it ([ADR 0004](docs/adr/0004-no-auth-anon-workspace-v0.md), [ADR 0006](docs/adr/0006-voice-in-v0-read-aloud-and-push-to-talk.md)).
+- Issue numbers (#NN) in code comments and design docs refer to the project's original issue tracker.
 - Sparky's chat bubbles show the model's markdown as raw text (`**bold**`); a markdown renderer is not wired in yet.
-- Lint isn't clean (see above). The Kokoro spike numbers in older notes were corrected after an honest re-measurement (LOG D18, L11).
+- Lint isn't clean (see above).
 
-The full plan is in [ROADMAP.md](ROADMAP.md). For why things are the way they are, see [docs/decisions/LOG.md](docs/decisions/LOG.md) and [docs/adr/](docs/adr/).
+For why things are the way they are, see the architecture decision records in [docs/adr/](docs/adr/), the research behind them in [docs/research/](docs/research/INDEX.md), and the glossary in [CONTEXT.md](CONTEXT.md).
 
 ## Credits and licences
 
@@ -199,5 +198,4 @@ The full plan is in [ROADMAP.md](ROADMAP.md). For why things are the way they ar
 - Fonts: [Baloo 2](https://fonts.google.com/specimen/Baloo+2) and [Nunito](https://fonts.google.com/specimen/Nunito), both SIL Open Font License, self-hosted at build time through `next/font`.
 - Main dependencies: [Next.js](https://nextjs.org) (MIT), [React](https://react.dev) (MIT), [Convex](https://www.convex.dev) client (Apache-2.0), [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk) (subject to Anthropic's terms), [Tailwind CSS](https://tailwindcss.com) (MIT), [Shiki](https://shiki.style) (MIT), [jsdiff](https://github.com/kpdecker/jsdiff) (BSD-3-Clause), [zod](https://zod.dev) (MIT), [Rive React runtime](https://github.com/rive-app/rive-react) (MIT), [kokoro-js](https://www.npmjs.com/package/kokoro-js) (Apache-2.0).
 - `/spike-rive` loads a public sample animation from Rive's own CDN at runtime, and `/spike-kokoro` downloads the Kokoro-82M model (Apache-2.0) at runtime. Neither asset is included in this repo.
-- `docs/agents/domain.md`, `issue-tracker.md` and `triage-labels.md` are adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT, Copyright (c) 2026 Matt Pocock); the licence text is in [`docs/agents/LICENSE-mattpocock-skills.txt`](docs/agents/LICENSE-mattpocock-skills.txt).
 - Sounds are synthesized with WebAudio, and emoji are rendered by the system font. The repo contains no third-party media.

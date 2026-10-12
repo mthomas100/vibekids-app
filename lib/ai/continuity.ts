@@ -2,7 +2,7 @@
 // turn, so a follow-up ("make the button pink") must carry the kid's current app with
 // it. Pure prompt-builder — no Convex, no SDK — so the wrapping rules are testable.
 //
-// Goes in the (dynamic) user prompt, never the cached system prompt (learning L2).
+// Goes in the (dynamic) user prompt, never the cached system prompt (so the cached prefix stays stable).
 
 export type ContinuityFile = { path: string; content: string };
 

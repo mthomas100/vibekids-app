@@ -40,7 +40,7 @@ export default function SpikeRivePage() {
   // For a trigger input, call .fire(); for boolean/number, set .value
   const bumpInput = useStateMachineInput(rive, STATE_MACHINE, INPUT_BUMP)
 
-  // Demonstrate React → Rive binding: auto-fire every 2 s so the human can see it
+  // Demonstrate React → Rive binding: auto-fire every 2 s so you can see it
   const [count, setCount] = useState(0)
   useEffect(() => {
     if (!bumpInput) return

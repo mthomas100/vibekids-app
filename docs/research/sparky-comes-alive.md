@@ -1,12 +1,12 @@
-# Research — Sparky Comes Alive (M4: avatar · voice · idea-refinement · grill-activation)
+# Research — Sparky Comes Alive (avatar · voice · idea-refinement · grill-activation)
 
-> The M4 research archive. Four parallel Opus streams, 2026-05-30. **Consult before re-deriving.**
+> Four parallel research streams, 2026-05-30.
 > Decisions live in ADR [0006](../adr/0006-voice-in-v0-read-aloud-and-push-to-talk.md) (voice) +
-> [0007](../adr/0007-rive-avatar-engine.md) (avatar); LOG D15–D17. Buildable units: issues #17–#21.
+> [0007](../adr/0007-rive-avatar-engine.md) (avatar). Buildable units: issues #17–#21.
 
 The throughline: Sparky stops being *a chat box with a mascot* and becomes *a character the kid
 collaborates with* — **present** (animated), **conversational** (talks + listens), and able to **help the
-kid figure out what to make**. The whole arc is **additive/low-risk**: it rides on the M3 chip rail, the
+kid figure out what to make**. The whole arc is **additive/low-risk**: it rides on the suggestion-chip rail, the
 continuity injection seam (`app/api/chat/route.ts:50-63`), and the live `buildStatus`/`streaming` state.
 
 ## §Avatar — Rive (chosen) → ADR 0007
@@ -22,7 +22,7 @@ continuity injection seam (`app/api/chat/route.ts:50-63`), and the live `buildSt
   (hand-author every pose) · sprite/CSS (no blend/lip-sync) · PixiJS (rebuild Rive by hand) · 3D (wrong
   aesthetic) · video/GIF (can't react to live state).
 - **Asset plan (the one handoff):** reskin a Rive Marketplace/Community mascot w/ multi-expression states
-  (free account → the owner), or AI-art + rig in the free Rive editor, or a CSS/Motion placeholder first.
+  (needs a free account), or AI-art + rig in the free Rive editor, or a CSS/Motion placeholder first.
 
 ## §Voice — read-aloud + push-to-talk STT, on-device & $0 → ADR 0006
 
@@ -32,7 +32,7 @@ continuity injection seam (`app/api/chat/route.ts:50-63`), and the live `buildSt
   Warm read-aloud needs **no paid vendor** — no model spend either (voice ≠ the agent loop).
 - **Kid STT — the known-hard part:** zero-shot Whisper ≈ **25% WER on kids vs ~3% adults (~8×)**;
   spontaneous child speech worse. Free Web Speech recognition is the *least* accurate and ships audio to
-  Google/Apple. **[USER CALL]** ship push-to-talk STT in the POC anyway (adult-tester fidelity is fine),
+  Google/Apple. **Decision:** ship push-to-talk STT in the POC anyway (adult-tester fidelity is fine),
   and **evaluate the kid-accuracy live later**. Repair UX neutralizes the risk: recognized text **fills the
   input (confirm-before-send), never auto-sends**.
 - **Safety (deferred to Phase 1, see ADR 0006 §Deferred):** kid audio = biometric → parental consent,
@@ -84,7 +84,7 @@ continuity injection seam (`app/api/chat/route.ts:50-63`), and the live `buildSt
   deprecation → `@lottiefiles/dotlottie-react`.
 - **Voice:** Kid-Whisper (arXiv 2309.07927); child-ASR error analysis (arXiv 2502.08587); Kokoro.js
   (Xenova / Hugging Face, kokoroweb.app); Web Speech MDN/caniuse + Chrome 139 `processLocally`; ElevenLabs
-  + OpenAI minor-audio policies; cloud-TTS pricing (ElevenLabs/Cartesia/OpenAI/Deepgram). VibeKids D3/D7.
+  + OpenAI minor-audio policies; cloud-TTS pricing (ElevenLabs/Cartesia/OpenAI/Deepgram).
 - **Idea-refinement:** NN/g *Designing for Kids* + children's usability; Khanmigo review (KidsAiTools);
   Resnick *Designing for Wide Walls*; NAEYC *Guiding Children Using Questions*; Dweck/Stanford
   process-praise + Mindset Kit; *Design Thinking for Kids* (Prisma); dialogic-agent comprehension (PMC9299009).

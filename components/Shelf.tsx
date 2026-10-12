@@ -5,7 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 import type { Doc, Id } from "../convex/_generated/dataModel";
 
-// The kid-facing "My Apps" shelf (ADR 0010 / M5). One card per project — each project IS
+// The kid-facing "My Apps" shelf (ADR 0010). One card per project — each project IS
 // one app. "+ New app" creates a fresh empty project and opens it; Sparky names it on the
 // first build. This is the unit that has its own files, history, and time machine.
 

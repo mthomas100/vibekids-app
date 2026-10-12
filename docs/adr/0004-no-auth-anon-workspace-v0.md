@@ -1,6 +1,6 @@
 # ADR 0004 — Auth: none in v0; Phase-1 = Clerk with kids as *profiles*, not credentials
 
-> Index: `docs/decisions/LOG.md` (D7). Status: **Locked (v0).**
+> Status: **Locked (v0).**
 
 ## Context
 
@@ -28,9 +28,9 @@ proof-of-concept to a heavy compliance subsystem before we know the idea works. 
 parental consent lives at the account boundary, kids never hold credentials or a direct data
 relationship, and data-minimization / no-dark-patterns (AADC) are designed in rather than retrofitted.
 Doing this now (v0) would be premature; doing it any later than Phase 1 (first real users) would be
-reckless — so the line sits exactly at "about to expose it to anyone but the owner."
+reckless — so the line sits exactly at "about to expose it to anyone but the developer."
 
 ## Status & revisit-trigger
 
-**Locked for v0.** Implement the Clerk/profiles model **before exposing the app to anyone but the owner.**
+**Locked for v0.** Implement the Clerk/profiles model **before exposing the app to anyone but the developer.**
 The kids-as-profiles decision is a principled COPPA stance — do not "simplify" it into kid logins later.

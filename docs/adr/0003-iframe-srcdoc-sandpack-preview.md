@@ -1,6 +1,6 @@
 # ADR 0003 — Preview/sandbox: iframe `srcdoc` (Tier A) + Sandpack (Tier B)
 
-> Index: `docs/decisions/LOG.md` (D6). Status: **Locked (v0).**
+> Status: **Locked (v0).**
 
 ## Context
 

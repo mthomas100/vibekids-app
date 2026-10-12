@@ -71,7 +71,7 @@ body {
 /* ----------------------------------------------------------------------------
    .btn-toy — the pressable toy button. Pair with a bg + border color, e.g.:
    <button class="btn-toy bg-coral border-coral-deep text-ink">Go!</button>
-   CONTRAST HOUSE RULE (D25): labels on color fills are dark ink — white fails
+   CONTRAST HOUSE RULE: labels on color fills are dark ink — white fails
    WCAG on aqua/sun/lime (2.10/1.61/2.09) and only survives on coral/grape at
    ≥18.66px bold. Small pills use the dark-on-light-tint pattern instead.
    Physics: thick bottom shadow; hover lifts 1px; :active pushes 3px down and

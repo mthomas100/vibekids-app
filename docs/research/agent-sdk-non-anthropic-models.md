@@ -1,8 +1,8 @@
 # Can the Claude Agent SDK use non-Anthropic models?
 
 > **What this is:** a focused technical clarification, captured 2026-06-06 and **verified against current
-> docs** (context7 + web search, not training memory — the SDK moves fast). Companion to the Claude-Max
-> billing stream (INDEX §5) and ADR [0001](../adr/0001-agent-sdk-on-max-subscription.md), which lock the
+> docs** (context7 + web search, not training memory — the SDK moves fast). Companion to the auth & billing
+> stream (INDEX §5) and ADR [0001](../adr/0001-claude-agent-sdk-engine.md), which lock the
 > Agent SDK as v0's engine. This answers a recurring question about *that* engine: is it Claude-only?
 >
 > **Bottom line:** **No — but with an asterisk.** The SDK is *built around* Anthropic's Claude models
@@ -20,7 +20,7 @@ Claude Code's model support, and authenticates the same ways — all of which se
 | Native lane | Env knob | Still Claude? |
 |---|---|---|
 | Anthropic API (direct) | `ANTHROPIC_API_KEY` | yes |
-| Max subscription (OAuth) | `CLAUDE_CODE_OAUTH_TOKEN` | yes — **the lane VibeKids dev uses** |
+| Personal subscription login (OAuth) | `CLAUDE_CODE_OAUTH_TOKEN` | yes — VibeKids' opt-in `subscription` lane |
 | Amazon Bedrock | `CLAUDE_CODE_USE_BEDROCK` | yes (different hosting/billing) |
 | Google Vertex | `CLAUDE_CODE_USE_VERTEX` | yes (different hosting/billing) |
 
@@ -60,7 +60,7 @@ The research above is generic; here's where it lands on what's already built her
   differs. This doc clarifies that the engine *could* be pointed elsewhere, but nothing in our flag does so.
 - **A non-Claude model would hook in *underneath* the flag, via `ANTHROPIC_BASE_URL` → a gateway** — it is
   not something `modelForRole()` or `LLM_PROVIDER` reaches today, and adopting it would be a new decision
-  (LOG entry + likely an ADR), not a config flip.
+  (likely an ADR), not a config flip.
 - **It would also change the auth lane.** A custom base URL bypasses Anthropic's own authentication
   entirely, so you'd pay whatever the gateway/provider charges, and neither of the native Claude
   credentials (API key, or the opt-in personal subscription token) applies.
@@ -77,4 +77,4 @@ The research above is generic; here's where it lands on what's already built her
 - context7: `/anthropics/claude-agent-sdk-python` (auth methods + subprocess/`cli_path` model)
 
 > See also: INDEX §2 (AI-layer comparison) · INDEX §5 (auth & billing) ·
-> ADR [0001](../adr/0001-agent-sdk-on-max-subscription.md) · `lib/ai/provider.ts` · `lib/ai/env-guard.ts`.
+> ADR [0001](../adr/0001-claude-agent-sdk-engine.md) · `lib/ai/provider.ts` · `lib/ai/env-guard.ts`.

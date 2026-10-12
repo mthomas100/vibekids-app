@@ -1,13 +1,13 @@
 "use client";
 
-// The while-you-wait show ("latency is a feature", M3 #2). While Sparky works, the wait
+// The while-you-wait show ("latency is a feature", #2). While Sparky works, the wait
 // becomes a little performance: the CURRENT step big with a marching progress bar, the
 // trail of steps he already did (labor made visible — waits feel shorter when you can
 // see the work), and a rotating fun fact/joke.
 //
 // Deliberately NO nudge toward other projects mid-build: attention-residue research says
 // a prompted hop hurts both sides and risks the kid missing the reveal — the peak-end
-// payoff (docs/research/wait-time-engagement.md, D25). If the kid wanders on their own,
+// payoff (docs/research/wait-time-engagement.md). If the kid wanders on their own,
 // the future Come-Back Ding pulls them back instead.
 
 import { useEffect, useState } from "react";

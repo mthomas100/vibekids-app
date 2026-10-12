@@ -1,8 +1,7 @@
 # ADR 0009 — Turn-grouped history (read-side) + pro admin viewers
 
-> Index: `docs/decisions/LOG.md` (D20). Status: **Accepted (v0).** Builds on ADR 0008 (D19).
+> Status: **Accepted (v0).** Builds on ADR 0008.
 > Implements epic #30 (slices #31/#32; viewers #28); research: `docs/research/versioning-architecture.md`.
-> Milestone: dev-experience + Phase-1 time-machine groundwork.
 
 ## Context
 
@@ -15,7 +14,7 @@ A 9-agent research fan-out (`docs/research/versioning-architecture.md`) found pe
 one genuinely off-paradigm thing here: the entire peer field (v0, bolt, Lovable, Replit, WordPress,
 Notion) groups a whole **build turn** into one restorable point ("checkpoint"/"version"/"revision"), and
 nobody buys versioning off the shelf — the table + non-destructive rollback we already built **is** the
-right substrate. The owner also reported two concrete viewer gaps: the Source tab has no syntax
+right substrate. Two concrete viewer gaps also showed up in use: the Source tab has no syntax
 highlighting; the Diff is inline, not side-by-side.
 
 A restraint pass + a live measurement (`fileVersions:turnCoverage`, 2026-05-31) sized the problem: **21
@@ -61,7 +60,7 @@ writes, and persisted commit tables are premature.
 - **The seam was already there** (ADR 0008 §3): `turnMessageId` is stamped on every agent write (measured:
   7/7 write+edit rows), threaded route → `createSparkyToolServer` → the 3 writer tools.
 - **Reactivity-safe** — turn reads hit `fileVersions`/`messages`/`projects`, never the `files` table the
-  live kid preview subscribes to (L9/L12 discipline). The only `files` writes are rollback, which reuse the
+  live kid preview subscribes to. The only `files` writes are rollback, which reuse the
   normal write path so the preview updates correctly.
 - **Reuses what exists** — `compose()` already inlines a multi-file array; `diff@9` is installed;
   `recordVersion` stays the single snapshot choke point.

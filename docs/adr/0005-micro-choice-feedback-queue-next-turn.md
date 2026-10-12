@@ -1,6 +1,6 @@
 # ADR 0005 — Micro-choice feedback model: queue / next-turn (not live injection)
 
-> Index: `docs/decisions/LOG.md` (D13). Status: **Locked (v0) [USER CALL].**
+> Status: **Locked (v0).**
 > Evidence: `docs/research/micro-choice-feedback-model.md`.
 
 ## Context
@@ -24,7 +24,7 @@ the UI's `busy` guard makes a mid-build tap a **no-op**, and each turn is a fres
 ## Decision
 
 **Option B — queue / next-turn.** The micro-choice fills the wait but never blocks it; the kid's tap is
-applied as the next turn. **[USER CALL, 2026-05-30.]**
+applied as the next turn. (Decided 2026-05-30.)
 
 ## Why
 
@@ -33,7 +33,7 @@ applied as the next turn. **[USER CALL, 2026-05-30.]**
   steering and moved its **default away** from it because interrupting mid-tool "produces degraded output."
   (See the research doc for sources.)
 - **A is against the grain and risky.** It needs cross-request shared state to route a tap into an active
-  `query()`, bets on streaming-input working on the subscription/OAuth path, and only helps in the narrow
+  `query()`, bets on streaming-input working on the OAuth path, and only helps in the narrow
   window where a build is *still running* when the kid taps. Highest cost, least proven, worst-supported.
 - **B is cheapest and most reversible** — it reuses the existing chip→send path; the work is a small
   continuity fix plus UI plumbing (unblock the `busy` guard so a tap queues).
@@ -45,7 +45,7 @@ applied as the next turn. **[USER CALL, 2026-05-30.]**
 - **Continuity is a hard prerequisite** (carved out as its own issue): a follow-up turn must receive the
   current project files and be told to **edit** them, never `create_project` again. This also repairs the
   already-shipped `suggest_idea` chips, which share the gap. Prove it before building the UI on top
-  (de-risk-the-keystone-first).
+  (de-risk the keystone first).
 - Microchoice chips should read as **a question being answered**, visually distinct from "next idea" chips.
 - The `busy` guard must let a mid-build tap **queue** (and show as picked) rather than no-op.
 
@@ -53,4 +53,4 @@ applied as the next turn. **[USER CALL, 2026-05-30.]**
 
 **Locked for v0.** Revisit Option A only if (a) builds become long enough that next-turn latency visibly
 hurts the "while-you-wait" feel, AND (b) we're on the production (API) engine where streaming-input steering
-is cheap and proven — never on the subscription path.
+is cheap and proven — never on the opt-in OAuth path.

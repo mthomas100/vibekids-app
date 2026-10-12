@@ -1,11 +1,11 @@
 # ADR 0007 — Rive (.riv state machine) as Sparky's avatar engine
 
-> Index: `docs/decisions/LOG.md` (D16). Status: **Locked (v0), keystone PROVEN.**
-> Evidence: `docs/research/sparky-comes-alive.md` (§Avatar) + the de-risk spike. Milestone: **M4** (#17).
+> Status: **Locked (v0), keystone PROVEN.**
+> Evidence: `docs/research/sparky-comes-alive.md` (§Avatar) + the de-risk spike. Issue #17.
 
 ## Context
 
-Sparky was a **static yellow ⚡ emoji** (`AvatarChat.tsx:84`). M4 makes him a *living* avatar that idles
+Sparky was a **static yellow ⚡ emoji** (`AvatarChat.tsx:84`). This work makes him a *living* avatar that idles
 "alive" and **reacts to build-state**. The app already streams the state an avatar would animate to —
 `buildStatus.phase` (the "what Sparky's doing" ticker) and `messages[].streaming` — reactively from Convex.
 So the engine's real job is to be **a visual readout of agent state**: we need to flip a named animation
@@ -55,7 +55,7 @@ state or lip-sync).
 ## Consequences
 
 - **Asset dependency (the one handoff):** we need a *Sparky* `.riv` with a `mood` state machine. Sources, in
-  order: reskin a **Rive Marketplace/Community** mascot (free Rive account → a stop-and-ask for the owner),
+  order: reskin a **Rive Marketplace/Community** mascot (needs a free Rive account),
   AI-generate art + rig in the **free Rive editor**, or ship a CSS/Motion placeholder and drop the `.riv` in
   later. The Rive *decision* stands regardless of which asset path we take.
 - **Hardening follow-up:** the avatar currently maps from kid-facing `buildStatus.phase` *prose*. Add a typed

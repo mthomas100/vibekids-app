@@ -1,6 +1,6 @@
 "use client";
 
-// The "IT'S ALIVE!" moment (M5): full-screen confetti + a TA-DA stamp when a build
+// The "IT'S ALIVE!" moment: full-screen confetti + a TA-DA stamp when a build
 // finishes. Fires on the finishCount edge from useBuildLifecycle — a watched
 // building→done transition only, so reloading an old project never celebrates.
 // Pure CSS animation (globals.css vk-confetti); removes itself when the show ends.

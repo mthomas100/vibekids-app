@@ -1,6 +1,6 @@
 "use client";
 
-// Sparky's living face (M4 / #17, upgraded). A CSS+SVG character that reads as a soft
+// Sparky's living face (#17, upgraded). A CSS+SVG character that reads as a soft
 // 3D toy: radial-gradient shading, a perspective head that turns to follow the kid's
 // pointer, pupils with saccades, real word-synced mouth (speechSynthesis boundary
 // beats via lib/voice/speak.onSpeakBeat), and mood acting on top. Per ADR 0007 a

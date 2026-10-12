@@ -1,8 +1,8 @@
 # 3D "alive" Sparky — research synthesis (2026-07-08)
 
 > Research-agent brief, commissioned to make Sparky feel 3D and alive, with a mouth that moves
-> while Sparky reads aloud. **Recommends superseding ADR 0007 (Rive)** — that supersession is a
-> [USER CALL]; do not act on it without the owner's ratification.
+> while Sparky reads aloud. **Recommends superseding ADR 0007 (Rive)**; that supersession was never
+> decided. The avatar that shipped is a CSS/SVG character (`components/SparkyAvatar.tsx`).
 
 ## Recommendation (TL;DR)
 

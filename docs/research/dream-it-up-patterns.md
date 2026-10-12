@@ -3,8 +3,8 @@
 > Distilled from a 6-agent research program (2026-07-08): 2025–26 product teardowns
 > (Kiro, Replit Agent 3, Lovable, v0, Bolt, Cursor, Devin, Spec Kit, Gamma,
 > Character.ai), LLM clarifying-question literature, and child–AI co-creation /
-> dialogic-reading research. Shapes the Dream-It-Up mode (D26). The full research
-> output is archived elsewhere; this page keeps only what we act on.
+> dialogic-reading research. Shapes the Dream-It-Up mode. This page keeps only the
+> findings the design acts on.
 
 ## The industry convergence (what everyone settled on)
 
@@ -54,7 +54,7 @@
 | options-first + custom + skip | 3–4 chips + ✏️ Something else (input) + 🎲 Surprise me |
 | one explicit go, never re-confirm | 🚀 "I'm done — build it!" always visible; explicit go skips the recap gate; `DONE_INTENT` regex |
 | plan artifact + gate | recap bubble + ⭐ plan card ([🚀 Build it!] / [✏️ Change something]) |
-| Expand/echo + affirm | `ask_question.reaction` echoes the kid's word; instant ack beat (L10) |
+| Expand/echo + affirm | `ask_question.reaction` echoes the kid's word; instant ack beat (written route-side, no model wait) |
 | refine-don't-replace, surprise slot | "Surprise me" → Sparky picks AND says what it picked |
 | latency never blocks | deterministic opener/change/build-now (0 model calls); Haiku fast-role turns ~9s, covered by ack + dots; early-break at the tool call |
 

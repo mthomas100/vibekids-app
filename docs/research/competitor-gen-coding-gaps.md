@@ -1,6 +1,6 @@
 # Competitor gen-coding gaps — research synthesis (2026-07-08)
 
-> Fourth brief of the "next-level" session's research wave. Covered Lovable, Bolt.new, v0.dev,
+> One of four parallel research briefs (2026-07-08). Covered Lovable, Bolt.new, v0.dev,
 > Replit Agent (Agent 3, 2025-26); kid tools Scratch, Roblox Studio Assistant, Code.org, Tynker;
 > + Duolingo/Khan Kids for delight patterns.
 > **Through-line: Sparky is the most underused asset** — every winning kid product routes progress,

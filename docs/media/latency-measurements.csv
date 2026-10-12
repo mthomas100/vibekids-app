@@ -1,7 +1,7 @@
 measurement,ms,source,date
-"Read-aloud instant ack (route-side, before the model)",90,"docs/decisions/LOG.md L10",2026-05-31
-"Kokoro.js on-device TTS, one 12-word line (idle, not cross-origin-isolated)",7974,"docs/decisions/LOG.md D18",2026-05-31
-"Haiku time-to-first-token, Dream-It-Up question",7000,"docs/decisions/LOG.md D26",2026-07-08
-"Dream-It-Up question, end to end (steady state)",9000,"docs/decisions/LOG.md D26",2026-07-08
-"Agent SDK, first file written on a complex build",70000,"docs/decisions/LOG.md L10",2026-05-31
-"Whole build turn, one Dream-It-Up brief → playable game (Frog Star Catcher)",62000,"live recording for this README (app stamp: ""Whipped up it in 62s"")",2026-10-05
+"Read-aloud instant ack (route-side, before the model)",90,"live measurement in local dev",2026-05-31
+"Kokoro.js on-device TTS, one 12-word line (idle, not cross-origin-isolated)",7974,"live measurement in local dev",2026-05-31
+"Haiku time-to-first-token, Dream-It-Up question",7000,"live measurement in local dev",2026-07-08
+"Dream-It-Up question, end to end (steady state)",9000,"live measurement in local dev",2026-07-08
+"Agent SDK, first file written on a complex build",70000,"live measurement in local dev",2026-05-31
+"Whole build turn, one Dream-It-Up brief → playable game (Frog Star Catcher)",62000,"live recording shown at the top of the README (app stamp: ""Whipped up it in 62s"")",2026-10-05

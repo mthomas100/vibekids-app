@@ -1,6 +1,6 @@
 # Research — Micro-choice feedback model: how AI builders handle mid-build input
 
-> Feeds **ADR 0005** (LOG D13). Question: when a kid taps a micro-choice (or types) **while Sparky is
+> Feeds **ADR 0005**. Question: when a kid taps a micro-choice (or types) **while Sparky is
 > still building**, what happens to that input? Surveyed the 4 comparables named in `CONTEXT.md`
 > (Lovable / Replit / v0 / Bolt) plus the closest technical analog (Claude Code / Cursor / Windsurf).
 > 5 parallel sub-agents, web sources current to **May 2026**.
@@ -40,7 +40,7 @@
   *edit* them (never `create_project` again). This also repairs the already-shipped `suggest_idea` chips,
   which share the gap.
 - **Reject live in-flight injection (Option A)** — against the grain of the whole category, degrades output,
-  and needs cross-request shared state + an unproven subscription-path bet.
+  and needs cross-request shared state + an unproven OAuth-path bet.
 
 ## Sources (web, current to May 2026)
 

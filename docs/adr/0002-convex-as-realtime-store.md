@@ -1,6 +1,6 @@
 # ADR 0002 — Backend: Convex as the single store + realtime transport
 
-> Index: `docs/decisions/LOG.md` (D5, folds in D10). Status: **Locked.**
+> Status: **Locked.**
 
 ## Context
 
@@ -20,11 +20,11 @@ socket + a separate preview-refresh mechanism); collapsing them is the architect
 
 ## Decision
 
-**Convex** as the single store **and** the single realtime transport (folding in D10: **one transport
+**Convex** as the single store **and** the single realtime transport (**one transport
 for both chat and preview**). Tool handlers write to `messages`/`suggestions`/`buildStatus`/`files`; the
 client subscribes once via `useQuery`; **the preview re-renders reactively from the `files` table** — no
-manual refresh logic, no hand-rolled websockets/polling. Codified as a guiding principle in `ROADMAP.md`
-("One realtime transport (Convex) … fewer moving parts"). The schema is deliberately slim
+manual refresh logic, no hand-rolled websockets/polling. One realtime transport means fewer moving
+parts. The schema is deliberately slim
 (`projects · files · messages · suggestions · buildStatus`); accounts/profiles/snapshots return with
 auth in Phase 1+, still on Convex.
 

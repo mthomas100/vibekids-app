@@ -1,6 +1,6 @@
 # Toy Arcade design-system validation (2026-07-08)
 
-> Research agent's audit of the committed "Toy Arcade" tokens (D23) — palette confirmed as the
+> Research agent's audit of the committed "Toy Arcade" tokens — palette confirmed as the
 > right "Soft Arcade" direction; ONE real defect found (button-label contrast) plus role-hierarchy
 > guidance and the five signature "whoa" moments.
 
@@ -16,7 +16,7 @@ Measured on the exact committed hexes:
 | sun `#ffc233` | 1.61 ✗ | 9.21 ✓ |
 | lime `#58cc02` | 2.09 ✗ | 7.12 ✓ |
 
-Body ink on cream = 14.08 ✓. **House rule adopted (D25): dark-ink labels on ALL color fills** —
+Body ink on cream = 14.08 ✓. **House rule adopted: dark-ink labels on ALL color fills** —
 passes everywhere and reads more "sticker/toy." White reserved for hero CTAs on coral/grape at
 ≥18.66px bold only. The existing dark-on-light-tint pattern (LIVE badge: `text-aqua-deep` on
 `bg-aqua/20`) is exactly right for small pills.

@@ -10,7 +10,6 @@
     "start": "next start",
     "lint": "eslint",
     "smoke-test": "node --env-file=.env.local scripts/agent-smoke-test.mjs",
-    "check:docs": "node scripts/check-doc-sync.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },

@@ -1,7 +1,7 @@
 # Wait-time engagement — research synthesis (2026-07-08)
 
-> Fable research agent commissioned mid-"next-level" session; the brief that killed the
-> other-apps detour nudge (D25) and defines the wait-time v2 backlog. Constraints honored:
+> Research brief (2026-07-08) that removed the other-apps detour nudge during builds
+> and lists the next wait-time ideas. Constraints honored:
 > client/Convex-only, zero extra AI calls, Toca-ethical (invitations, never obligations).
 
 ## Six load-bearing findings

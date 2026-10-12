@@ -1,7 +1,7 @@
 # Versioning / diff / admin-console architecture — research synthesis
 
-> **Status: Reference (researched 2026-05-31, 9-agent Opus fan-out).** A genuine architecture
-> decision (lean read-side vs. persisted commits) was **open for the owner** at the time —
+> **Status: Reference (researched 2026-05-31, 9 parallel research agents).** A genuine architecture
+> decision (lean read-side vs. persisted commits) was **open** at the time —
 > see §10. It was later resolved read-side as ADR 0009.
 > Origin: the dev `/admin` time machine (ADR 0008) raised "am I reinventing the wheel?" — this is the
 > answer, plus the patterns/frameworks/peer landscape behind it.
@@ -42,7 +42,7 @@ split — *developer-handoff* products (Replit/bolt/Lovable/v0/Spark) run it; *c
 tools use a snapshot table. (3) **Almost nobody auto-generates a rich end-user "what changed"** — this
 is the field's weak spot and our cheapest differentiator (Sparky already knows what it did).
 
-## 3. Direct answers to the owner's questions
+## 3. Direct answers to the design questions
 
 - **Library that does it better?** For *viewers* yes (§6). For the *versioning system*, no — build-vs-buy
   is already correctly settled on the snapshot table.
@@ -51,7 +51,7 @@ is the field's weak spot and our cheapest differentiator (Sparky already knows w
 - **Pull it all down locally?** Yes, **no git server needed** (§7).
 - **Side-by-side navigable diff?** Yes, cheaply (§6).
 - **Syntax highlighting?** Yes — **Shiki**, and the "only if painful" trigger (ADR 0008 / #28) is now
-  met because the owner reported the pain (§6).
+  met because reading raw HTML did prove painful (§6).
 - **Versions that describe what changed?** Sparky emits `{emoji, category, summary}` per turn (§4) —
   industry-leading flourish, near-free.
 - **Intuitive client/kid rollback?** Turn-level "time machine", Phase 1; non-destructive restore makes
@@ -88,7 +88,7 @@ mandate appears.
   the client; VS-Code TextMate grammars correctly highlight JS-in-HTML (what Sparky writes). It's the
   pattern Next 16's docs use, and `shiki` + `vscode-oniguruma` are already in Next 16's default
   `serverExternalPackages`. **Trigger met:** ADR 0008/#28 said "upgrade only if reading raw HTML proves
-  painful" — the owner reported exactly that. Caller note: `FilePanel` is a client component, so render
+  painful" — and it did. Caller note: `FilePanel` is a client component, so render
   the Source view at a server boundary (or use Shiki's client recipe if it must live-update via Convex).
 - **Diff → hand-roll two columns over `diff@9` (already installed).** `diffLines` for the gutter +
   `diffWordsWithSpace` for intra-line. ~50 lines, no new dep.
@@ -193,5 +193,4 @@ Replit snapshot engine (blog.replit.com/inside-replits-snapshot-engine) · v0 Ve
 revisions (wordpress.org/documentation/article/revisions) · Pro Git Internals — Git Objects
 (git-scm.com/book/en/v2/Git-Internals-Git-Objects) · isomorphic-git (github.com/isomorphic-git) · Dolt
 (github.com/dolthub/dolt) · Convex limits / export / file-storage / best-practices (docs.convex.dev) ·
-Shiki + Next 16 `serverExternalPackages` · `diff` v9 · CodeMirror 6 (`@uiw/react-codemirror`). Full
-per-stream citation lists are archived elsewhere.
+Shiki + Next 16 `serverExternalPackages` · `diff` v9 · CodeMirror 6 (`@uiw/react-codemirror`). 

@@ -21,7 +21,7 @@ function injectErrorCatcher(html: string): string {
 }
 
 // v0 Tier A: compose a single HTML document from the file tree, inlining any
-// separate .css / .js the entry references. (Sandpack/Tier B comes in M3.)
+// separate .css / .js the entry references. (Sandpack/Tier B is planned.)
 export function compose(files: FileLike[], entryPath?: string): string | null {
   const entry =
     files.find((f) => f.path === (entryPath ?? "index.html")) ??

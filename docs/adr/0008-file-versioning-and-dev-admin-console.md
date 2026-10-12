@@ -1,7 +1,7 @@
 # ADR 0008 — File version history + the dev admin console
 
-> Index: `docs/decisions/LOG.md` (D19). Status: **Locked (v0), verified live** (both layers).
-> Implements #11 / `ROADMAP.md` Phase-1 "Snapshots/undo", pulled early as a dev tool. Milestone: dev-experience.
+> Status: **Locked (v0), verified live** (both layers).
+> Implements #11 (the Phase-1 "Snapshots/undo" item), pulled early as a dev tool.
 
 ## Context
 
@@ -40,8 +40,8 @@ now; the kid-facing layer (visual before/after + "go back") stays Phase 1 but it
 
 ## Why
 
-- **Structural safety over vigilance** (echoes L7): centralizing the snapshot in `write` means history can't
-  be silently skipped, the same way the 6-tool sandbox makes the action space safe by construction.
+- **Structural safety over vigilance**: centralizing the snapshot in `write` means history can't
+  be silently skipped, the same way the tool sandbox makes the action space safe by construction.
 - **Non-destructive rollback = git's mental model** — a restore is just another commit; you can never paint
   yourself into a corner, and the timeline never lies.
 - **Full snapshots, not deltas** — Convex has no native delta storage and deltas would mean replay-on-read;
@@ -55,7 +55,7 @@ now; the kid-facing layer (visual before/after + "go back") stays Phase 1 but it
   prune intermediate `edit` snapshots / switch hot files to deltas. (`needs-triage` filed.)
 - **Historical render is per-file in isolation** — reconstructing a *whole multi-file project as of version
   N* is deferred (the `by_project_turn` index already supports it; the v1 UI doesn't assemble it).
-- **The `NODE_ENV` gate is a v0 stopgap, not auth.** Real protection rides on **Phase-1 Clerk** (D7). The
+- **The `NODE_ENV` gate is a v0 stopgap, not auth.** Real protection rides on **Phase-1 Clerk** (ADR 0004). The
   console lists *all* workspaces' projects — fine for local single-user dev, hardened before any real user.
 - **Source tab is plain `<pre>`** — upgrade to `highlight.js` only if reading raw HTML proves painful.
   (`needs-triage` filed.)

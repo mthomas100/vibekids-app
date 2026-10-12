@@ -45,7 +45,7 @@ export const SURPRISE_ANSWER = "You pick! Surprise me! 🎲";
 export const DONE_INTENT =
   /\b(build it|just build|make it now|start building|go build|i'?m done|all done|that'?s (it|all|everything)|no more questions)\b/i;
 
-/** Instant acks while Haiku thinks of the next question (the L10 pattern). */
+/** Instant acks while Haiku thinks of the next question (written route-side, so there is no model wait). */
 export const INTERVIEW_ACKS = [
   "Ooh!! ✨",
   "Nice pick! 🌟",
